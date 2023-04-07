@@ -1,5 +1,3 @@
-package hashmap;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -112,7 +110,7 @@ public class BookManager {
 	}
 
 	// ISBN 목록
-	// test 중입니다.
+	//Entry 와 entrySet()을 이용해 key값들과 value값들을 받아온다.
 	public void listISBN() {
 		System.out.println("도서수:" + books.size());
 		for (Map.Entry m : books.entrySet()) {

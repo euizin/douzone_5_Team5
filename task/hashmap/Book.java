@@ -1,5 +1,3 @@
-package hashmap;
-
 public class Book {
 	private String bookNum;
 	private String bookName;
