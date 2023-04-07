@@ -112,6 +112,7 @@ public class BookManager {
 	}
 
 	// ISBN 목록
+	// test 중입니다.
 	public void listISBN() {
 		System.out.println("도서수:" + books.size());
 		for (Map.Entry m : books.entrySet()) {
