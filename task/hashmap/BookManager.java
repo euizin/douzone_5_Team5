@@ -110,6 +110,8 @@ public class BookManager {
 	}
 
 	// ISBN 목록
+	//개선된 for문 이용
+	//Entry 와 entrySet()을 이용해 key값들과 value값들을 받아온다.
 	public void listISBN() {
 		System.out.println("도서수:" + books.size());
 		for (Map.Entry m : books.entrySet()) {
