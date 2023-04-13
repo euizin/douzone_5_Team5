@@ -4,13 +4,18 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.EOFException;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.util.HashMap;
 
 public class FileIO {
     private FileInputStream fis;
@@ -19,100 +24,100 @@ public class FileIO {
     private BufferedOutputStream bos;
     private ObjectInputStream ois;
     private ObjectOutputStream oos;
-
+    private FileReader fr;
+    private BufferedReader br;
+    private FileWriter fw;
+    private BufferedWriter bw;
+    private String filename;
+    
     // 생성자
-    public FileIO(String filePath) {
-        try {
-            // 파일 입력 스트림
-            fis = new FileInputStream(filePath);
-            bis = new BufferedInputStream(fis);
-
-            // 파일 출력 스트림
-            fos = new FileOutputStream(filePath);
-            bos = new BufferedOutputStream(fos);
-
-            // 객체 입력 스트림
-            ois = new ObjectInputStream(bis);
-
-            // 객체 출력 스트림
-            oos = new ObjectOutputStream(bos);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public FileIO(String filename) {
+    	this.filename = filename;
     }
-
-    // 파일에서 문자열을 읽어서 반환하는 메서드
-    public String readTextFile() {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(bis));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-            }
-            reader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return sb.toString();
+    
+    //텍스트 파일 데이터 읽기
+    public String readFile() {
+    	String str = "";
+    	try {
+    		File file = new File(filename);
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
+			String line = "";
+			while ((line = br.readLine()) != null) {
+				str += line;
+	         }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return str;
     }
-
-    // 문자열을 파일에 쓰는 메서드
-    public void writeTextFile(String contents) {
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(bos));
-        try {
-            writer.write(contents);
-            writer.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
+    //텍스트 파일 데이터 쓰기
+    public void writeFile() {
+    	try {
+			fw = new FileWriter(filename);
+			bw = new BufferedWriter(fw);
+			
+			//bw.write();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
-
-    // 파일에서 객체를 읽어서 반환하는 메서드
-    public Object readObjectFile() {
-        Object obj = null;
-        try {
-            obj = ois.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        return obj;
+    
+    //역직렬화 데이터 읽기
+    public Object readObject() {
+    	Object obj = null;
+    	try {
+    		File file = new File(filename);
+    		if (!file.exists()) {
+    			file.createNewFile();
+    	    }
+			fis = new FileInputStream(file);
+			bis = new BufferedInputStream(fis);
+			ois = new ObjectInputStream(bis);
+			obj = ois.readObject();
+		}catch (EOFException e) {
+			System.out.println("저장된 정보가 없어 " + filename + " 파일을 생성합니다.");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+	            if (ois != null) {
+	                ois.close();
+	            }
+	            if (bis != null) {
+	                bis.close();
+	            }
+	            if (fis != null) {
+	                fis.close();
+	            }
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+    	return obj;
     }
-
-    // 객체를 파일에 쓰는 메서드
-    public void writeObjectFile(Object obj) {
-        try {
-            oos.writeObject(obj);
-            oos.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // 스트림을 닫는 메서드
-    public void close() {
-        try {
-            if (fis != null) {
-                fis.close();
-            }
-            if (fos != null) {
-                fos.close();
-            }
-            if (bis != null) {
-                bis.close();
-            }
-            if (bos != null) {
-                bos.close();
-            }
-            if (ois != null) {
-                ois.close();
-            }
-            if (oos != null) {
-                oos.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    
+    //직렬화 데이터 쓰기
+    public void writeObject(Object obj) {
+    	try {
+			fos = new FileOutputStream(filename, false);
+			bos = new BufferedOutputStream(fos);
+			oos = new ObjectOutputStream(bos);
+			
+			oos.writeObject(obj);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				oos.close();
+				bos.close();
+				fos.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
     }
 }

@@ -16,6 +16,11 @@ public class StudentSystem {
 		this.courseList = courseList;
 	}
 	
+	//학생 시스템 실행
+	public void run() {
+		
+	}
+	
 	//강의 목록 출력
 	public void courseList() {
 		

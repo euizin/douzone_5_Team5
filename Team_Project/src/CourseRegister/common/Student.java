@@ -1,8 +1,9 @@
 package CourseRegister.common;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Student {
+public class Student implements Serializable {
 	private String name;			//학생 이름
 	private String studentID;		//학번
 	private String pwd;				//비밀번호
@@ -19,6 +20,35 @@ public class Student {
 		this.courseList = null;
 		this.availableGrade = 21;
 	}
+
+	public List<Course> getCourseList() {
+		return courseList;
+	}
+
+	public void setCourseList(List<Course> courseList) {
+		this.courseList = courseList;
+	}
+
+	public int getAvailableGrade() {
+		return availableGrade;
+	}
+
+	public void setAvailableGrade(int availableGrade) {
+		this.availableGrade = availableGrade;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public String getStudentID() {
+		return studentID;
+	}
+
+	public String getPwd() {
+		return pwd;
+	}
+	
 	
 	
 }
