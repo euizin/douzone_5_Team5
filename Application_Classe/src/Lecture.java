@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Lecture {
+public class Lecture {//수강과목 리스트 보여주기
 	
 	Scanner sc= new Scanner(System.in);
 	
@@ -54,11 +54,12 @@ public class Lecture {
 	            e.printStackTrace();
 	        }
 
-	        // 사용자에게 과목을 선택하도록 안내합니다.
-	        System.out.println("Please select a subject:");
+	       //수강신청 인덱스 설정하여 출력
 	        for (int i = 0; i < subjects.size(); i++) {
 	            System.out.println((i + 1) + ". " + subjects.get(i));
 	        }
+	        // 사용자에게 과목을 선택하도록 안내
+	        System.out.println("수강신청하실 강의 인덱스 번호를 입력해주세요^^:");
 
 	        // 사용자가 선택한 과목을 변수에 저장합니다.
 	        Scanner scanner = new Scanner(System.in);
@@ -71,7 +72,7 @@ public class Lecture {
 	            writer.write(selectedSubject);
 	            writer.newLine();
 	            writer.close();
-	            System.out.println("Registration successful!");
+	            System.out.println("수강 신청 되었습니다!!");
 	        } catch (IOException e) {
 	            System.out.println("Error writing file");
 	            e.printStackTrace();
@@ -81,6 +82,7 @@ public class Lecture {
 	}
 	public void Del_class() {//수강 신청 취소하기
 		System.out.println("=====수강 과목 취소=====");
+		
 		 // 수강 신청한 과목 리스트를 저장할 리스트를 생성합니다.
         List<String> registrations = new ArrayList<>();
         try {
@@ -98,10 +100,11 @@ public class Lecture {
         }
 
         // 사용자에게 수강 신청 취소할 과목을 선택하도록 안내합니다.
-        System.out.println("Please select a subject to cancel registration:");
+        
         for (int i = 0; i < registrations.size(); i++) {
             System.out.println((i + 1) + ". " + registrations.get(i));
         }
+        System.out.println("수강 취소하실 강의 인덱스 번호를 입력해주세요^^:");
 
         // 사용자가 선택한 과목을 변수에 저장합니다.
         Scanner scanner = new Scanner(System.in);
@@ -118,7 +121,7 @@ public class Lecture {
                 }
             }
             writer.close();
-            System.out.println("수강 신청 완료~~!!!");
+            System.out.println("수강 신청 취소 완료~~!!!");
         } catch (IOException e) {
             System.out.println("Error writing file");
             e.printStackTrace();
@@ -148,7 +151,7 @@ public class Lecture {
 		        }
 
 		        // 수강 신청한 과목 리스트를 화면에 출력합니다.
-		        System.out.println("Registered subjects:");
+		        System.out.println("수강 신청 완료하신 리스트를 보여드리겠습니다!!^^");
 		        for (int i = 0; i < registrations.size(); i++) {
 		            System.out.println((i + 1) + ". " + registrations.get(i));
 		        }
